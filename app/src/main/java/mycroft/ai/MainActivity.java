@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Mycroft";
     public WebSocketClient mWebSocketClient;
     private String wsip;
+    private String wsport;
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
     TTSManager ttsManager = null;
@@ -87,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         voxSwitch = (Switch) findViewById(R.id.voxswitch);
-
+        //set the switch to ON
+        voxSwitch.setChecked(true);
         //attach a listener to check for changes in state
         voxSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -224,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (wsip != null && !wsip.isEmpty()) {
             try {
-                uri = new URI("ws://" + wsip + ":8000/events/ws");
+                uri = new URI("ws://" + wsip + ":" + wsport + "/events/ws");
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
@@ -303,7 +305,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        loadPreferences();
         registerReceiver();
     }
 
@@ -316,7 +317,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+
         loadPreferences();
+
         registerReceiver();
     }
 
@@ -329,7 +332,12 @@ public class MainActivity extends AppCompatActivity {
             // eep, show the settings intent!
             startActivity(new Intent(this, SettingsActivity.class));
         } else if (mWebSocketClient == null || mWebSocketClient.getConnection().isClosed()) {
-            connectWebSocket();
+            wsport = sharedPref.getString("port", "");
+            if (wsport.isEmpty()) {
+                startActivity(new Intent(this, SettingsActivity.class));
+            } else {
+                connectWebSocket();
+            }
         }
 
         // set app reader setting

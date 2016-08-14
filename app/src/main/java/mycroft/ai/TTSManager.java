@@ -67,7 +67,7 @@ public class TTSManager {
         @Override
         public void onInit(int status) {
             if (status == TextToSpeech.SUCCESS) {
-                int result = mTts.setLanguage(Locale.US);
+                int result = mTts.setLanguage(Locale.UK);
                 isLoaded = true;
                 Log.i(TAG, "TTS initialized");
 

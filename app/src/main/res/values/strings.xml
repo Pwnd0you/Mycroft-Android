@@ -20,6 +20,9 @@
     <string name="pref_title_default_ip">Mycroft IP address</string>
     <string name="pref_default_display_ip">192.168.0.2</string>
 
+    <string name="pref_title_default_port">Mycroft Port address</string>
+    <string name="pref_default_display_port">8000</string>
+
     <string name="pref_title_app_reader_switch">App Reader</string>
     <string name="pref_summary_app_reader_switch">enable TTS responses</string>
 
